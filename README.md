@@ -3,7 +3,6 @@ import numpy as np
 import cv2
 import matplotlib as plt
 from time import sleep
-import urllib.request
 
 
 ## Open the camera and get a template
@@ -31,7 +30,7 @@ while rval:
     key = cv2.waitKey(20)
     if key == 27: # exit on ESC
         break
-    elif key == 32:
+    elif key == 32: #space bar to capture
         img_name = "opencv_frame_{}.png".format(img_counter)
         cv2.imwrite(img_name, frame)
         print("{} written!".format(img_name))
@@ -42,14 +41,14 @@ vidcap.release()
 
 ## Get the template and check against "profile"
 
-path=urllib.request.urlopen(input('choose profile pic:  '))
+path=r"path"
 template=r'img_name'
 img = cv2.imread(path, 0)
 img2 = img.copy()
 template = cv2.imread(template, 0)
 w, h = template.shape[::-1]
 
-#All 6 methods for comparison in a list, get down to one
+#template matching methods
 methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
             'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
