@@ -4,13 +4,12 @@ import numpy as np
 import matplotlib as plt
 
 
-#imagePath = 'C:/Users/Lovelace/Desktop/ABBA0.jpg'
-cascPath = 'C:/Users/Lovelace/source/repos/PythonApplication4/haarcascade_frontalface_default.xml'
+#imagePath = 'filepath/ABBA.jpg'
+cascPath = 'filepath/haarcascade_frontalface_default.xml'
 # Create the haar cascade
-#faceCascade = cv2.CascadeClassifier(cascPath)
 faceCascade = cv2.CascadeClassifier(cascPath)
 # Read the image
-image = cv2.imread('C:/Users/Lovelace/Desktop/ABBA0.jpg')
+image = cv2.imread(imagePath)
 image = np.array(image, dtype=np.uint8)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 # Detect faces in the image
