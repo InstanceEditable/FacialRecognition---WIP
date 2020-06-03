@@ -1,75 +1,30 @@
 # ImageAnalysis -- WIP
-import numpy as np
 import cv2
+import numpy as np
 import matplotlib as plt
-from time import sleep
 
 
-## Open the camera and get a template
+#imagePath = 'C:/Users/Lovelace/Desktop/ABBA0.jpg'
+cascPath = 'C:/Users/Lovelace/source/repos/PythonApplication4/haarcascade_frontalface_default.xml'
+# Create the haar cascade
+#faceCascade = cv2.CascadeClassifier(cascPath)
+faceCascade = cv2.CascadeClassifier(cascPath)
+# Read the image
+image = cv2.imread('C:/Users/Lovelace/Desktop/ABBA0.jpg')
+image = np.array(image, dtype=np.uint8)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# Detect faces in the image
+faces = faceCascade.detectMultiScale(
+    gray,
+    scaleFactor=1.2,
+    minNeighbors=5,
+    minSize=(30, 30),
+    flags = cv2.CASCADE_SCALE_IMAGE)
 
-cv2.namedWindow("preview")
-vidcap = cv2.VideoCapture(0)
-img_counter = 0
-
-while True:
-    #If the camera is not available
-    if not vidcap.isOpened():
-        print('Unable to load camera.')
-        sleep(5)
-        pass
-
-if vidcap.isOpened(): # try to get the first frame
-    rval, frame = vc.read()
-else:
-    rval = False
-
-while rval:
-    #Create a window to view camera
-    cv2.imshow("preview", frame)
-    rval, frame = vc.read()
-    key = cv2.waitKey(20)
-    if key == 27: # exit on ESC
-        break
-    elif key == 32: #space bar to capture
-        img_name = "opencv_frame_{}.png".format(img_counter)
-        cv2.imwrite(img_name, frame)
-        print("{} written!".format(img_name))
-        img_counter += 1
-
-vidcap.release()
+# Draw a rectangle around the faces
+for (x, y, w, h) in faces:
+    cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 
-## Get the template and check against "profile"
-
-path=r"path"
-template=r'img_name'
-img = cv2.imread(path, 0)
-img2 = img.copy()
-template = cv2.imread(template, 0)
-w, h = template.shape[::-1]
-
-#template matching methods
-methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
-            'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
-
-for meth in methods:
-    img = img2.copy()
-    method = eval(meth)
-    # Apply template Matching
-    res = cv2.matchTemplate(img,template,method)
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-    # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-    if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-        top_left = min_loc
-    else:
-        top_left = max_loc
-    bottom_right = (top_left[0] + w, top_left[1] + h)
-    cv2.rectangle(img,top_left, bottom_right, 255, 2)
-    
-    plt.subplot(121),plt.imshow(res,cmap = 'gray')
-    plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(img,cmap = 'gray')
-    plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
-    plt.suptitle(meth)
-    
-    plt.show()
+cv2.imshow("Faces found", image)
+cv2.waitKey(0)
