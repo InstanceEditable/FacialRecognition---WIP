@@ -25,7 +25,7 @@ while True:
         flags=cv2.CASCADE_SCALE_IMAGE
     )
 
-    # Draw a rectangle around the faces
+    # Draw a rectangle around the traffic lights
     for (x, y, w, h) in stopLights:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
 
