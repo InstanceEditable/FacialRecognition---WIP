@@ -10,7 +10,7 @@ video_capture= cv2.VideoCapture(0)
 #get cascade classifiers
 peopleCascade= cv2.CascadeClassifier('haarcascade_fullbody.xml')
 signCascade= cv2.CascadeClassifier('TrafficLight_HAAR_16Stages.xml')
-carCascade= cv2.CascadeClassifier('cars.xml')
+carCascade= cv2.CascadeClassifier('haarcascade_cars.xml')
 
 while True:
     # Capture frame-by-frame
