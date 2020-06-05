@@ -1,4 +1,6 @@
 # Traffic Detection
+Detection of Cars, Traffic lights, and People
+
 import cv2
 import sys
 import numpy as np
